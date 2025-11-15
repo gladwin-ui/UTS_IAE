@@ -227,10 +227,13 @@ Atau bisa juga membuat user baru dengan klik "Sign Up".
 - `GET /api/reviews/course/<course_id>/stats` - Get course review statistics
 
 ## Anggota
-1. Darvesh Gladwin Musyaffa: Perancangan Arsitektur Microservice, Membantu Pembuatan Website, Pembuatan Update dan Delete pada Profile
+1. **Darvesh Gladwin Musyaffa**: Perancangan Arsitektur Microservice, Membantu Pembuatan Website, Pembuatan Update dan Delete pada Profile
    Bertanggung jawab pada pada Service Courses, Pembuatan UI Design, Bux Fixing
-2. Muhammad Luthfi Tukhfattur Romadhoni: Perancangan Arsitektur Microservice, Pembuatan Website, Bug Fixing, Pembuatan Sign Up dan Login
+2. **Muhammad Luthfi Tukhfattur Romadhoni**: Perancangan Arsitektur Microservice, Pembuatan Website, Bug Fixing, Pembuatan Sign Up dan Login
    Pembuatan Tasks and Modules pada Courses; My Courses; dan Proggress, Bertanggung jawab pada pada Service Proggress, Pembuatan UI Design
+3. **Arkananta Fausta**: Membantu di Post man, membuat powerpoint, bertanggungjawab di service enrollment
+4. **Dhydo Aryo Jayanata** : bertanggung jawab pada bagian service user, implementasi postman, dan PPT
+5. ⁠**Muhammad Daffa**: Membantu di Post man, membuat powerpoint, bertanggungjawab di service review
    
 
 
