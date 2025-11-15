@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect - Online Learning Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduConnect</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#courses" class="nav-link">Courses</a>
+                <a href="#my-courses" class="nav-link">My Courses</a>
+                <a href="#progress" class="nav-link">Progress</a>
+                <a href="#profile" class="nav-link" id="profileLink" style="display: none;">Profile</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <button class="btn btn-outline" onclick="showLoginModal()">Login</button>
+                <button class="btn btn-primary" onclick="showRegisterModal()">Sign Up</button>
+            </div>
+            <div class="nav-user" id="navUser" style="display: none;">
+                <div class="user-avatar-container">
+                    <div class="user-avatar" id="userAvatar" onclick="showProfileModal()" title="Account Settings">
+                        <span id="avatarInitials"></span>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title fade-in">Welcome to EduConnect</h1>
+            <p class="hero-subtitle fade-in-delay">Your gateway to online learning excellence</p>
+            <button class="btn btn-primary btn-large fade-in-delay-2" onclick="scrollToCourses()">
+                Explore Courses
+            </button>
+        </div>
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses-section" id="courses">
+        <div class="container">
+            <h2 class="section-title">Featured Courses</h2>
+            <div class="courses-filter">
+                <button class="filter-btn active" onclick="filterCourses('all', this)">All</button>
+                <button class="filter-btn" onclick="filterCourses('Programming', this)">Programming</button>
+                <button class="filter-btn" onclick="filterCourses('Web Development', this)">Web Development</button>
+                <button class="filter-btn" onclick="filterCourses('Data Science', this)">Data Science</button>
+            </div>
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Courses will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- My Courses Section -->
+    <section class="my-courses-section" id="my-courses" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">My Enrolled Courses</h2>
+            <div class="courses-grid" id="myCoursesGrid">
+                <!-- Enrolled courses will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="progress-section" id="progress" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">My Learning Progress</h2>
+            <div class="progress-grid" id="progressGrid">
+                <!-- Progress will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile/Account Settings Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('profileModal')">&times;</span>
+            <h2><i class="fas fa-user-cog"></i> Account Settings</h2>
+            <form id="updateProfileForm" onsubmit="handleUpdateProfile(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="updateFullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="updateUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="updateEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password (leave blank to keep current password)</label>
+                    <input type="password" id="updatePassword" placeholder="Enter new password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+            </form>
+            <hr style="margin: 2rem 0; border: 1px solid #e5e7eb;">
+            <div style="margin-top: 2rem;">
+                <h3 style="color: #dc2626; margin-bottom: 1rem;">Danger Zone</h3>
+                <p style="color: var(--gray); margin-bottom: 1rem;">
+                    Once you delete your account, there is no going back. Please be certain.
+                </p>
+                <button class="btn" onclick="confirmDeleteAccount()" style="background-color: #dc2626; color: white;">
+                    <i class="fas fa-trash-alt"></i> Delete My Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('deleteConfirmModal')">&times;</span>
+            <h2 style="color: #dc2626;"><i class="fas fa-exclamation-triangle"></i> Delete Account</h2>
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+            <p style="color: var(--gray); font-size: 0.9rem;">All your enrollments, progress, and reviews will be deleted.</p>
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-outline" onclick="closeModal('deleteConfirmModal')" style="flex: 1;">
+                    Cancel
+                </button>
+                <button class="btn" onclick="handleDeleteAccount()" style="background-color: #dc2626; color: white; flex: 1;">
+                    Yes, Delete My Account
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Sign Up</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerFullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Course Detail Modal -->
+    <div class="modal" id="courseModal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="closeModal('courseModal')">&times;</span>
+            <div id="courseModalContent">
+                <!-- Course details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025, Kelompok 2, IAE</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
